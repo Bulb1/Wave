@@ -14,8 +14,8 @@ Add new user
 POST http://localhost:9191/register
 body -> raw
 {
-    "firstName" : "Bartosz",
-    "lastName" : "Nazwisko",
+    "firstName" : "Name",
+    "lastName" : "Last Name",
     "email" : "test@gmail.com",
     "password" : "123456",
     "role" : "USER"
