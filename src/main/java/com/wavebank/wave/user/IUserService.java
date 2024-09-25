@@ -1,6 +1,7 @@
 package com.wavebank.wave.user;
 
 import com.wavebank.wave.registration.RegistrationRequest;
+import com.wavebank.wave.registration.token.VerificationToken;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface IUserService {
     Optional<User> findByEmail(String email);
 
     void saveUserVerificationToken(User theUser, String verificationToken);
+
+    String validateToken(String theToken);
 }
