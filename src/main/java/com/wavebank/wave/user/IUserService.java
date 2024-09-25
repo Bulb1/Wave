@@ -12,4 +12,6 @@ public interface IUserService {
     User registerUser(RegistrationRequest request);
     //Method to return an Optional<User> object containing user if they're found by email or Optional.empty() if no user with that email exists
     Optional<User> findByEmail(String email);
+
+    void saveUserVerificationToken(User theUser, String verificationToken);
 }

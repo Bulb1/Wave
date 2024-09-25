@@ -2,6 +2,8 @@ package com.wavebank.wave.user;
 
 import com.wavebank.wave.exception.UserAlreadyExistsException;
 import com.wavebank.wave.registration.RegistrationRequest;
+import com.wavebank.wave.registration.token.VerificationToken;
+import com.wavebank.wave.registration.token.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,14 +18,13 @@ public class UserService implements IUserService {
     // UserRepository is an interface that extends JpaRepository used to interact with the database, it provides methods findAll(), findByEmail(), and save()
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final VerificationTokenRepository tokenRepository;
     // Method used to retrieve all users from the database
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    // Method used to register a new user
     @Override
     public User registerUser(RegistrationRequest request) {
 
@@ -47,10 +48,15 @@ public class UserService implements IUserService {
         // save a new user to the database
         return userRepository.save(newUser);
     }
-    // Method used to find a user by their email
     @Override
     public Optional<User> findByEmail(String email) {
         // Optional<User> is a container of object User which either has a non-null value or is empty
         return userRepository.findByEmail(email);
+    }
+    @Override
+    public void saveUserVerificationToken(User theUser, String token) {
+        var verificationToken = new VerificationToken(token, theUser);
+        tokenRepository.save(verificationToken);
+
     }
 }

@@ -38,6 +38,8 @@ public class RegistrationController {
         publisher.publishEvent(new RegistrationCompleteEvent(user, applicationUrl(request)));
 
         return "Success! Please, check your email for registration";
+
+
     }
 
     /* Method used to generate a verification URL that's passed to RegistrationCompleteEvent
