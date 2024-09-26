@@ -10,3 +10,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+# less secure apps and app passwords don't work and will get disabled on 30th september 2024
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: wavebank782@gmail.com
+#    password: o3H2svdL9YJPCAo
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
