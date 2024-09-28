@@ -17,4 +17,6 @@ public interface IUserService {
     void saveUserVerificationToken(User theUser, String verificationToken);
 
     String validateToken(String theToken);
+
+    String deleteToken(String theToken);
 }

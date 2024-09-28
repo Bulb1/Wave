@@ -43,11 +43,18 @@ public class RegistrationController {
     @GetMapping("/verifyEmail")
     public String verifyEmail(@RequestParam("token")String token) {
         VerificationToken theToken = tokenRepository.findByToken(token);
+        //check if the user is already enabled
+        if(theToken == null) {
+            return "Invalid verification token";
+        }
         if (theToken.getUser().isEnabled()) {
             return "This account has already been verified, please, login.";
         }
+        //Validate token
         String verificationResult = userService.validateToken(token);
+
         if(verificationResult.equalsIgnoreCase("valid")) {
+            userService.deleteToken(token);
             return "Email verified successfully. Now you can login to your account";
         }
         return "Invalid verification token";

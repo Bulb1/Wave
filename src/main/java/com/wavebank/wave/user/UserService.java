@@ -58,7 +58,6 @@ public class UserService implements IUserService {
     public void saveUserVerificationToken(User theUser, String token) {
         var verificationToken = new VerificationToken(token, theUser);
         tokenRepository.save(verificationToken);
-
     }
 
     @Override
@@ -76,5 +75,17 @@ public class UserService implements IUserService {
         user.setEnabled(true);
         userRepository.save(user);
         return "valid";
+
+    }
+
+    @Override
+    public String deleteToken(String theToken) {
+        VerificationToken token = tokenRepository.findByToken(theToken);
+        if(token == null) {
+            return "Token not found";
+        }
+        tokenRepository.delete(token);
+
+        return "Token deleted";
     }
 }
