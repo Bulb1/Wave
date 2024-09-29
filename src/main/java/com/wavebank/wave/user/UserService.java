@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -62,13 +64,16 @@ public class UserService implements IUserService {
 
     @Override
     public String validateToken(String theToken) {
+        if (theToken == null) {
+            throw new NullPointerException("token is null");
+        }
         VerificationToken token = tokenRepository.findByToken(theToken);
         if(token == null) {
             return "Invalid verification token";
         }
         User user = token.getUser();
         Calendar calendar = Calendar.getInstance();
-        if ((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0){
+        if (token.getExpirationTime().before(calendar.getTime())) {
             tokenRepository.delete(token);
             return "Token expired";
         }
