@@ -3,18 +3,11 @@ package com.wavebank.wave.event.listener;
 import com.wavebank.wave.event.RegistrationCompleteEvent;
 import com.wavebank.wave.user.User;
 import com.wavebank.wave.user.UserService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.pretty.MessageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 @Slf4j
@@ -26,9 +19,10 @@ public class RegistrationCompleteEventListener implements
     private final UserService userService;
     //https://docs.spring.io/spring-boot/reference/io/email.html
     //private final JavaMailSender mailSender;
-    private User theUser;
+
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
+        User theUser;
         // 1. Get the newly registered user
         theUser = event.getUser();
         // 2. Create a verification token for the user
@@ -45,7 +39,7 @@ public class RegistrationCompleteEventListener implements
             throw new RuntimeException(e);
         }
          */
-        log.info("Click the link to verify your registration : {}",url);
+        log.info("Click the link to verify your registration you have 5 minutes: {}",url);
     }
     // Does not work, figure out later
     // boot email account

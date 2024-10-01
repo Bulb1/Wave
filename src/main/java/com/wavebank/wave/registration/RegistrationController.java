@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+
 //https://projectlombok.org/features/
 //this class will handle web requests and return data as a response
 @RestController
@@ -44,8 +46,10 @@ public class RegistrationController {
     public String verifyEmail(@RequestParam("token")String token) {
         VerificationToken theToken = tokenRepository.findByToken(token);
         //check if the user is already enabled
-        if(theToken == null) {
-            return "Invalid verification token";
+        Calendar calendar = Calendar.getInstance();
+        if(theToken.getExpirationTime().before(calendar.getTime())) {
+            tokenRepository.delete(theToken);
+            return "Token expired";
         }
         if (theToken.getUser().isEnabled()) {
             return "This account has already been verified, please, login.";
